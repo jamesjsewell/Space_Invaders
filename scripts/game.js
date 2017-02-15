@@ -1,3 +1,6 @@
+//you were at 14:00
+
+
 ;(function() {
 	var Game = function(canvasId){
 		var canvas = document.getElementById(canvasId)
@@ -29,6 +32,10 @@
 			for (var i = 0; i < this.bodies.length; i++){
 				drawRect(screen, this.bodies[i])
 			}
+		},
+
+		addBody: function(body){
+			this.bodies.push(body)
 		}
 	}
 
@@ -46,6 +53,10 @@
 			}
 			else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
 				this.center.x += 2
+			}
+			if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
+				var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x/2}, {x: 0, y: -6})
+				this.game.addBody(bullet)
 			}
 
 		}
