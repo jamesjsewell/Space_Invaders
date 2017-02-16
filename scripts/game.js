@@ -10,6 +10,13 @@
 		this.bodies = createInvaders(this).concat(new Player(this, gameSize))
 
 		var self = this
+		loadSound("sounds/shoot.wav", function(shootSound){
+			self.shootSound = shootSound
+		})
+		var self = this
+		loadSound("sounds/playerShoot.wav", function(playerShootSound){
+			self.playerShootSound = playerShootSound
+		})
 		var tick = function() {
 			self.update()
 			self.draw(screen, gameSize)
@@ -76,6 +83,8 @@
 			if (Math.random() > 0.995 && !this.game.invadersBelow(this)) {
 				var bullet = new Bullet({ x: this.center.x, y: this.center.y + this.size.x/2}, {x: Math.random() - 0.5, y: 2})
 				this.game.addBody(bullet)
+				//this.game.shootSound.load()
+				this.game.shootSound.play()
 			}
 
 		}
@@ -125,6 +134,8 @@
 			if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
 				var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x/2}, {x: 0, y: -6})
 				this.game.addBody(bullet)
+				this.game.playerShootSound.load()
+				this.game.playerShootSound.play()
 			}
 
 		}
@@ -164,10 +175,18 @@
 	}
 
 	var loadSound = function(url, callback){
+		var loaded = function(){
+			callback(sound)
+			sound.removeEventListener('canplaythrough', loaded)
+		}
 		var sound = new Audio(url)
+		sound.addEventListener('canplaythrough', loaded)
+		sound.load()
+		console.log(sound)
 	}
 
 	window.onload = function() {
 		new Game("screen")
 	}
+	
 })();
