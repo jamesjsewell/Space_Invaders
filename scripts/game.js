@@ -152,6 +152,7 @@
 		var KeyState = {}
 
 		window.onkeydown = function(e) {
+
 			KeyState[e.keyCode] = true
 		}
 		window.onkeyup = function(e) {
@@ -188,5 +189,5 @@
 	window.onload = function() {
 		new Game("screen")
 	}
-	
+
 })();
